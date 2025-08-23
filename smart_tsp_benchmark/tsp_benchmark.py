@@ -168,7 +168,7 @@ class TSPBenchmark:
     def _print_benchmark_header(self):
         cfg = self.benchmark_config
         print("\n" + "=" * 50)
-        print("SMART TSP BENCHMARK".center(50))
+        print("SMART TSP ALGORITHMS BENCHMARK".center(50))
         print("=" * 50)
         print(f"{'Dots:':<15} {cfg['n_dots']}")
         print(f"{'Seed:':<15} {cfg['seed']}")
