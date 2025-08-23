@@ -34,11 +34,6 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/smartlegionlab/smart-tsp-benchmark"
 
-[tool.setuptools]
-packages = [
-    "smart_tsp_benchmark",
-    "smart_tsp_benchmark.calculators",
-    "smart_tsp_benchmark.generators",
-    "smart_tsp_benchmark.optimizers",
-    "smart_tsp_benchmark.visualization"
-]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smart_tsp_benchmark*"]
