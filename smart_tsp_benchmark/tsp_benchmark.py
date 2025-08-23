@@ -11,7 +11,7 @@ from typing import Dict, Callable, Any, Union, List
 from smart_tsp_benchmark.calculators.length import calculate_length
 from smart_tsp_benchmark.generators.dots import generate_dots
 from smart_tsp_benchmark.optimizers.fast_opt import fast_post_optimize
-from smart_tsp_benchmark.visialization.plot_routes import plot_routes
+from smart_tsp_benchmark.visualization.plot_routes import plot_routes
 
 
 class BenchmarkStep:
