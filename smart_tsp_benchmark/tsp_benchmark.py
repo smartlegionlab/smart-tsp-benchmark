@@ -88,7 +88,7 @@ class TSPBenchmark:
             'seed': 777,
             'dot_generation': 'random',
             'use_post_optimization': False,
-            'plot_results': True,
+            'plot_results': False,
             'verbose': True
         },
         'algorithms': {}
@@ -118,7 +118,7 @@ class TSPBenchmark:
 
         config_file = self.config_path
 
-        if os.path.exists(config_file):
+        if config_file and os.path.exists(config_file):
             try:
                 with open(config_file, 'r') as f:
                     file_config = json.load(f)
@@ -127,6 +127,8 @@ class TSPBenchmark:
                 print(f"Error: Invalid JSON in config file {config_file}")
             except Exception as e:
                 print(f"Error loading config: {str(e)}")
+        elif config_file and not os.path.exists(config_file):
+            print(f"Warning: Config file not found: {config_file}, using defaults")
 
         self._update_algorithms_from_config(config)
         self.benchmark_config.update(config['benchmark'])
@@ -166,7 +168,7 @@ class TSPBenchmark:
     def _print_benchmark_header(self):
         cfg = self.benchmark_config
         print("\n" + "=" * 50)
-        print("SMART TSP ALGORITHMS BENCHMARK".center(50))
+        print("SMART TSP BENCHMARK".center(50))
         print("=" * 50)
         print(f"{'Dots:':<15} {cfg['n_dots']}")
         print(f"{'Seed:':<15} {cfg['seed']}")
