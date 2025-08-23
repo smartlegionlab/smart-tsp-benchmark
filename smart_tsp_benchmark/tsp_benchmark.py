@@ -20,13 +20,13 @@ class BenchmarkStep:
         raise NotImplementedError
 
 
-class CityGenerationStep(BenchmarkStep):
+class DotGenerationStep(BenchmarkStep):
 
     def execute(self, benchmark: 'TSPBenchmark', results: Dict):
-        benchmark.cities = generate_dots(
-            benchmark.benchmark_config['n_cities'],
+        benchmark.dots = generate_dots(
+            benchmark.benchmark_config['n_dots'],
             benchmark.benchmark_config['seed'],
-            method=benchmark.benchmark_config['city_generation']
+            method=benchmark.benchmark_config['dot_generation']
         )
 
 
@@ -43,7 +43,7 @@ class AlgorithmExecutionStep(BenchmarkStep):
             route = benchmark.execute_algorithm(config)
             route = benchmark.apply_post_optimization(config, route)
             exec_time = time.perf_counter() - start_time
-            route_length = calculate_length(benchmark.cities, route)
+            route_length = calculate_length(benchmark.dots, route)
 
             results[name] = benchmark.create_result(route, exec_time, route_length, config)
             benchmark.print_algorithm_end(exec_time, route_length)
@@ -53,7 +53,7 @@ class VisualizationStep(BenchmarkStep):
 
     def execute(self, benchmark: 'TSPBenchmark', results: Dict):
         if benchmark.benchmark_config['plot_results']:
-            plot_routes(benchmark.cities, {k: v['route'] for k, v in results.items()})
+            plot_routes(benchmark.dots, {k: v['route'] for k, v in results.items()})
 
 
 class SummaryStep(BenchmarkStep):
@@ -85,9 +85,9 @@ class TSPBenchmark:
     CONFIG_FILE = os.path.abspath('tsp_config.json')
     DEFAULT_CONFIG = {
         'benchmark': {
-            'n_cities': 1000,
+            'n_dots': 1000,
             'seed': 777,
-            'city_generation': 'random',
+            'dot_generation': 'random',
             'use_post_optimization': False,
             'plot_results': True,
             'verbose': True
@@ -98,7 +98,7 @@ class TSPBenchmark:
     }
 
     def __init__(self):
-        self.cities = None
+        self.dots = None
         self._init_algorithms()
         self.benchmark_config = self.DEFAULT_CONFIG['benchmark'].copy()
         self._load_config()
@@ -109,7 +109,7 @@ class TSPBenchmark:
 
     def _init_benchmark_steps(self):
         self.benchmark_steps = [
-            CityGenerationStep(),
+            DotGenerationStep(),
             AlgorithmExecutionStep(),
             VisualizationStep(),
             SummaryStep()
@@ -168,9 +168,9 @@ class TSPBenchmark:
         print("\n" + "=" * 50)
         print("SMART TSP ALGORITHMS BENCHMARK".center(50))
         print("=" * 50)
-        print(f"{'Cities:':<15} {cfg['n_cities']}")
+        print(f"{'Dots:':<15} {cfg['n_dots']}")
         print(f"{'Seed:':<15} {cfg['seed']}")
-        print(f"{'Generation:':<15} {cfg['city_generation']}")
+        print(f"{'Generation:':<15} {cfg['dot_generation']}")
         print(f"{'Post-opt:':<15} {'ON' if cfg['use_post_optimization'] else 'OFF'}")
 
         print(f"{'Algorithms:':<15}")
@@ -189,12 +189,12 @@ class TSPBenchmark:
     def execute_algorithm(self, config: AlgorithmConfig) -> List[int]:
         if config.is_class:
             solver = config.function(**config.params)
-            return solver.solve(self.cities)
-        return config.function(self.cities, **config.params)
+            return solver.solve(self.dots)
+        return config.function(self.dots, **config.params)
 
     def apply_post_optimization(self, config: AlgorithmConfig, route: List[int]) -> List[int]:
         if self.benchmark_config['use_post_optimization'] and config.post_optimize:
-            return fast_post_optimize(self.cities, route)
+            return fast_post_optimize(self.dots, route)
         return route
 
     def create_result(self, route: List[int], exec_time: float, route_length: float, config: AlgorithmConfig) -> Dict:
@@ -202,7 +202,7 @@ class TSPBenchmark:
             'route': route,
             'time': exec_time,
             'length': route_length,
-            'cities': self.benchmark_config['n_cities'],
+            'dots': self.benchmark_config['n_dots'],
             'params': config.params
         }
 

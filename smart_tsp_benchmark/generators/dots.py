@@ -5,13 +5,13 @@
 import numpy as np
 
 
-class RandomDotsGenerator:
+class RandomDotGenerator:
     @classmethod
     def generate(cls, n, scale):
         return np.random.rand(n, 2) * scale
 
 
-class ClusterDotsGenerator:
+class ClusterDotGenerator:
     @classmethod
     def generate(cls, n, scale):
         clusters = np.random.randint(3, 7)
@@ -22,7 +22,7 @@ class ClusterDotsGenerator:
         ])
 
 
-class CircleDotsGenerator:
+class CircleDotGenerator:
     @classmethod
     def generate(cls, n, scale, noise):
         angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
@@ -30,7 +30,7 @@ class CircleDotsGenerator:
         return base + np.random.randn(n, 2) * noise
 
 
-class GridDotsGenerator:
+class GridDotGenerator:
     @classmethod
     def generate(cls, n, scale, noise):
         grid_size = int(np.sqrt(n)) + 1
@@ -41,7 +41,7 @@ class GridDotsGenerator:
         return points[:n] + np.random.randn(n, 2) * noise
 
 
-class SpiralDotsGenerator:
+class SpiralDotGenerator:
     @classmethod
     def generate(cls, n, scale, noise):
         t = np.linspace(0, 10 * np.pi, n)
@@ -63,19 +63,19 @@ def generate_dots(
     np.random.seed(seed)
 
     if method == 'random':
-        return RandomDotsGenerator.generate(n, scale)
+        return RandomDotGenerator.generate(n, scale)
 
     elif method == 'cluster':
-        return ClusterDotsGenerator.generate(n, scale)
+        return ClusterDotGenerator.generate(n, scale)
 
     elif method == 'circle':
-        return CircleDotsGenerator.generate(n, scale, noise)
+        return CircleDotGenerator.generate(n, scale, noise)
 
     elif method == 'grid':
-        return GridDotsGenerator.generate(n, scale, noise)
+        return GridDotGenerator.generate(n, scale, noise)
 
     elif method == 'spiral':
-        return SpiralDotsGenerator.generate(n, scale, noise)
+        return SpiralDotGenerator.generate(n, scale, noise)
 
     else:
         raise ValueError(f"Unknown method: {method}")
