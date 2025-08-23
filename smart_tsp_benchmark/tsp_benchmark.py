@@ -82,7 +82,6 @@ class AlgorithmConfig:
 
 
 class TSPBenchmark:
-    CONFIG_FILE = os.path.abspath('tsp_config.json')
     DEFAULT_CONFIG = {
         'benchmark': {
             'n_dots': 1000,
@@ -92,12 +91,11 @@ class TSPBenchmark:
             'plot_results': True,
             'verbose': True
         },
-        'algorithms': {
-
-        }
+        'algorithms': {}
     }
 
-    def __init__(self):
+    def __init__(self, config_path=None):
+        self.config_path = config_path
         self.dots = None
         self._init_algorithms()
         self.benchmark_config = self.DEFAULT_CONFIG['benchmark'].copy()
@@ -118,13 +116,15 @@ class TSPBenchmark:
     def _load_config(self):
         config = self.DEFAULT_CONFIG.copy()
 
-        if os.path.exists(self.CONFIG_FILE):
+        config_file = self.config_path
+
+        if os.path.exists(config_file):
             try:
-                with open(self.CONFIG_FILE, 'r') as f:
+                with open(config_file, 'r') as f:
                     file_config = json.load(f)
                 config = self._deep_update(config, file_config)
             except json.JSONDecodeError:
-                print(f"Error: Invalid JSON in config file {self.CONFIG_FILE}")
+                print(f"Error: Invalid JSON in config file {config_file}")
             except Exception as e:
                 print(f"Error loading config: {str(e)}")
 
@@ -239,7 +239,8 @@ class TSPBenchmark:
                                                                                               'length'] == best_length else length_plain
             time_diff = f"{color_codes['green']}{time_diff_plain}{color_codes['reset']}" if data[
                                                                                                 'time'] == best_time else time_diff_plain
-            length_diff = f"{color_codes['green']}{length_diff_plain}{color_codes['reset']}" if data['length'] == best_length else length_diff_plain
+            length_diff = f"{color_codes['green']}{length_diff_plain}{color_codes['reset']}" if data[
+                                                                                                    'length'] == best_length else length_diff_plain
 
             table_rows.append({
                 'name': name,
