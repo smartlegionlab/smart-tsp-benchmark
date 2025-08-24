@@ -1,7 +1,4 @@
-# --------------------------------------------------------
-# Copyright © 2025, A.A. Suvorov
-# All rights reserved.
-# --------------------------------------------------------
+# Copyright (©) 2025, Alexander Suvorov. All rights reserved.
 from typing import Dict, List
 import numpy as np
 from matplotlib import pyplot as plt
