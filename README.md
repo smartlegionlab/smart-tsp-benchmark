@@ -1,4 +1,4 @@
-# Smart TSP Benchmark <sup>v0.1.3</sup>
+# Smart TSP Benchmark <sup>v0.1.4</sup>
 
 ---
 
@@ -59,10 +59,21 @@ if __name__ == '__main__':
 
 *Explore other projects on [GitHub](https://github.com/smartlegionlab).*
 
-## 📄 License
+## 📜 Licensing
 
-This project is licensed under the **BSD 3-Clause License** - see the [LICENSE](LICENSE) file for details. 
-This permits academic and commercial use while protecting author rights.
+This project uses a dual licensing system:
+
+### 🆓 BSD 3-Clause License
+- For non-commercial use
+- For academic and research purposes
+- For open-source projects
+
+### 💼 Commercial License
+- For commercial products and services
+- For enterprises using the code in proprietary solutions
+- For additional features and support
+
+**To obtain a commercial license:** [smartlegiondev@gmail.com](mailto:smartlegiondev@gmail.com)
 
 ## 🔗 Related Research
 
