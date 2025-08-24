@@ -36,4 +36,3 @@ Homepage = "https://github.com/smartlegionlab/smart-tsp-benchmark"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["smart_tsp_benchmark*"]
