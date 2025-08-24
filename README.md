@@ -96,6 +96,8 @@ if __name__ == '__main__':
 
 ```
 
+**An example of testing TSP algorithms** [here](https://github.com/smartlegionlab/smart-tsp-solver)
+
 ## 👨‍💻 Author
 
 **A.A. Suvorov**
