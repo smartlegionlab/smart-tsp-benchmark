@@ -6,7 +6,15 @@ from smart_tsp_benchmark.tsp_benchmark import TSPBenchmark
 
 
 def main():
-    benchmark = TSPBenchmark(config_path='tsp_config.json')
+    config = {
+        'n_dots': 1000,
+        'seed': 777,
+        'dot_generation': 'random',
+        'use_post_optimization': False,
+        'plot_results': False,
+        'verbose': True
+    }
+    benchmark = TSPBenchmark(config=config)
     benchmark.run_benchmark()
 
 

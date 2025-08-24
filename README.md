@@ -6,8 +6,6 @@
 
 ---
 
----
-
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smart-tsp-benchmark)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smart-tsp-benchmark)](https://github.com/smartlegionlab/smart-tsp-benchmark/)
 [![GitHub](https://img.shields.io/github/license/smartlegionlab/smart-tsp-benchmark)](https://github.com/smartlegionlab/smart-tsp-benchmark/blob/master/LICENSE)
@@ -26,60 +24,6 @@
 pip install smart-tsp-solver
 ```
 
----
-
-Example of creating a configuration file `tsp_config.json`:
-
-```json
-{
-  "algorithms": {
-    "Angular-radial v1": {
-      "enabled": true,
-      "params": {
-        "sort_by": "angle_distance",
-        "look_ahead": 100,
-        "max_2opt_iter": 100
-      }
-    },
-    "Angular-radial v2": {
-      "enabled": true,
-      "params": {
-        "sort_by": "angle_distance",
-        "look_ahead": 100,
-        "max_2opt_iter": 100
-      }
-    },
-    "Dynamic-gravity v1": {
-      "enabled": true,
-      "params": {
-        "delta": 0.5,
-        "fast_2opt_iter": 100
-      }
-    },"Dynamic-gravity v2": {
-      "enabled": true,
-      "params": {
-        "delta": 0.5,
-        "fast_2opt_iter": 100
-      }
-    },
-    "Greedy v2": {
-      "enabled": true,
-      "params": {
-        "start_point": 0
-      }
-    }
-  },
-  "benchmark": {
-    "n_cities": 100,
-    "seed": 777,
-    "city_generation": "cluster",
-    "use_post_optimization": false,
-    "plot_results": false,
-    "verbose": true
-  }
-}
-```
-
 ## Example of use
 
 ```python
@@ -87,13 +31,20 @@ from smart_tsp_benchmark.tsp_benchmark import TSPBenchmark
 
 
 def main():
-    benchmark = TSPBenchmark(config_path='tsp_config.json')
+    config = {
+        'n_dots': 1000,
+        'seed': 777,
+        'dot_generation': 'random',
+        'use_post_optimization': False,
+        'plot_results': False,
+        'verbose': True
+    }
+    benchmark = TSPBenchmark(config=config)
     benchmark.run_benchmark()
 
 
 if __name__ == '__main__':
     main()
-
 ```
 
 **An example of testing TSP algorithms** [here](https://github.com/smartlegionlab/smart-tsp-solver)

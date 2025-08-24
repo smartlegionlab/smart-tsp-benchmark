@@ -83,23 +83,18 @@ class AlgorithmConfig:
 
 class TSPBenchmark:
     DEFAULT_CONFIG = {
-        'benchmark': {
-            'n_dots': 1000,
-            'seed': 777,
-            'dot_generation': 'random',
-            'use_post_optimization': False,
-            'plot_results': False,
-            'verbose': True
-        },
-        'algorithms': {}
+        'n_dots': 1000,
+        'seed': 777,
+        'dot_generation': 'random',
+        'use_post_optimization': False,
+        'plot_results': False,
+        'verbose': True
     }
 
-    def __init__(self, config_path=None):
-        self.config_path = config_path
+    def __init__(self, config=None):
         self.dots = None
+        self.benchmark_config = config if config is not None else self.DEFAULT_CONFIG
         self._init_algorithms()
-        self.benchmark_config = self.DEFAULT_CONFIG['benchmark'].copy()
-        self._load_config()
         self._init_benchmark_steps()
 
     def _init_algorithms(self):
@@ -112,26 +107,6 @@ class TSPBenchmark:
             VisualizationStep(),
             SummaryStep()
         ]
-
-    def _load_config(self):
-        config = self.DEFAULT_CONFIG.copy()
-
-        config_file = self.config_path
-
-        if config_file and os.path.exists(config_file):
-            try:
-                with open(config_file, 'r') as f:
-                    file_config = json.load(f)
-                config = self._deep_update(config, file_config)
-            except json.JSONDecodeError:
-                print(f"Error: Invalid JSON in config file {config_file}")
-            except Exception as e:
-                print(f"Error loading config: {str(e)}")
-        elif config_file and not os.path.exists(config_file):
-            print(f"Warning: Config file not found: {config_file}, using defaults")
-
-        self._update_algorithms_from_config(config)
-        self.benchmark_config.update(config['benchmark'])
 
     def _deep_update(self, original, update):
         for key, value in update.items():
