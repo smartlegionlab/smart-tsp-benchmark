@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smart-tsp-benchmark"
-version = "0.1.5"
+version = "0.1.6"
 description = "Smart TSP Benchmark is a professional algorithm testing infrastructure with customizable scenarios and detailed metrics."
 authors = [
     {name = "A.A Suvorov", email = "smartlegiondev@gmail.com"}
 ]
-license = "BSD-3-Clause"
+license = "BSD-3-Clause OR LicenseRef-Commercial"
 readme = "README.md"
 requires-python = ">=3.6"
 classifiers = [
