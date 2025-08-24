@@ -1,4 +1,4 @@
-# Smart TSP Benchmark
+# Smart TSP Benchmark <sup>v0.1.3</sup>
 
 ---
 
