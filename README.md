@@ -90,19 +90,6 @@ For those interested in the theoretical foundations:
 - **Spatial Optimization:** Computational geometry approaches for large-scale problems
 - **Heuristic Analysis:** Comparative study of modern TSP approaches
 
-## 📚 Citation
-
-If this work contributes to your research, please cite:
-
-```bibtex
-@software{suvorov2025tspsolver,
-  title = {Smart TSP Solver Suite: Advanced Heuristic Algorithms},
-  author = {Suvorov, A.A.},
-  year = {2025},
-  url = {https://github.com/smartlegionlab/smart-tsp-benchmark}
-}
-```
-
 ## 🎨 Advanced Visualization
 
 ![LOGO](https://github.com/smartlegionlab/smart-tsp-benchmark/raw/master/data/images/tsp100.png)
