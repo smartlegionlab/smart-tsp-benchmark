@@ -158,7 +158,6 @@ class TSPBenchmark:
             print(f"\n{'=' * 50}")
             print(f"Running {name} algorithm...")
             print(f"Description: {config.description}")
-            print(f"Parameters: {config.param_description}")
 
     def execute_algorithm(self, config: AlgorithmConfig) -> List[int]:
         if config.is_class:
