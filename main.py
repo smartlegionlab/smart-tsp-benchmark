@@ -4,9 +4,9 @@ from smart_tsp_benchmark.tsp_benchmark import TSPBenchmark
 
 def main():
     config = {
-        'n_dots': 1000,
+        'n_points': 1000,
         'seed': 777,
-        'dot_generation': 'random',
+        'point_generation': 'random',
         'use_post_optimization': False,
         'plot_results': False,
         'verbose': True

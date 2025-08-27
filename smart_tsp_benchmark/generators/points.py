@@ -2,13 +2,13 @@
 import numpy as np
 
 
-class RandomDotGenerator:
+class RandomPointGenerator:
     @classmethod
     def generate(cls, n, scale):
         return np.random.rand(n, 2) * scale
 
 
-class ClusterDotGenerator:
+class ClusterPointGenerator:
     @classmethod
     def generate(cls, n, scale):
         clusters = np.random.randint(3, 7)
@@ -19,7 +19,7 @@ class ClusterDotGenerator:
         ])
 
 
-class CircleDotGenerator:
+class CirclePointGenerator:
     @classmethod
     def generate(cls, n, scale, noise):
         angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
@@ -27,7 +27,7 @@ class CircleDotGenerator:
         return base + np.random.randn(n, 2) * noise
 
 
-class GridDotGenerator:
+class GridPointGenerator:
     @classmethod
     def generate(cls, n, scale, noise):
         grid_size = int(np.sqrt(n)) + 1
@@ -38,7 +38,7 @@ class GridDotGenerator:
         return points[:n] + np.random.randn(n, 2) * noise
 
 
-class SpiralDotGenerator:
+class SpiralPointGenerator:
     @classmethod
     def generate(cls, n, scale, noise):
         t = np.linspace(0, 10 * np.pi, n)
@@ -50,7 +50,7 @@ class SpiralDotGenerator:
 
 
 
-def generate_dots(
+def generate_points(
         n: int,
         seed: int = 42,
         method = 'random',
@@ -60,26 +60,26 @@ def generate_dots(
     np.random.seed(seed)
 
     if method == 'random':
-        return RandomDotGenerator.generate(n, scale)
+        return RandomPointGenerator.generate(n, scale)
 
     elif method == 'cluster':
-        return ClusterDotGenerator.generate(n, scale)
+        return ClusterPointGenerator.generate(n, scale)
 
     elif method == 'circle':
-        return CircleDotGenerator.generate(n, scale, noise)
+        return CirclePointGenerator.generate(n, scale, noise)
 
     elif method == 'grid':
-        return GridDotGenerator.generate(n, scale, noise)
+        return GridPointGenerator.generate(n, scale, noise)
 
     elif method == 'spiral':
-        return SpiralDotGenerator.generate(n, scale, noise)
+        return SpiralPointGenerator.generate(n, scale, noise)
 
     else:
         raise ValueError(f"Unknown method: {method}")
 
 
 if __name__ == "__main__":
-    berlin_like = generate_dots(52, method='circle', noise=2.0)
-    pr439_like = generate_dots(439, method='cluster')
-    att532_like = generate_dots(532, method='grid', noise=1.5)
-    rd400_like = generate_dots(400, method='random')
+    berlin_like = generate_points(52, method='circle', noise=2.0)
+    pr439_like = generate_points(439, method='cluster')
+    att532_like = generate_points(532, method='grid', noise=1.5)
+    rd400_like = generate_points(400, method='random')

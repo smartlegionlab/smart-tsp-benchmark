@@ -1,12 +1,10 @@
 # Copyright (©) 2025, Alexander Suvorov. All rights reserved.
 import time
-import json
-import os
 from dataclasses import dataclass
 from typing import Dict, Callable, Any, Union, List
 
 from smart_tsp_benchmark.calculators.length import calculate_length
-from smart_tsp_benchmark.generators.dots import generate_dots
+from smart_tsp_benchmark.generators.points import generate_points
 from smart_tsp_benchmark.optimizers.fast_opt import fast_post_optimize
 from smart_tsp_benchmark.visualization.plot_routes import plot_routes
 
@@ -17,13 +15,13 @@ class BenchmarkStep:
         raise NotImplementedError
 
 
-class DotGenerationStep(BenchmarkStep):
+class PointGenerationStep(BenchmarkStep):
 
     def execute(self, benchmark: 'TSPBenchmark', results: Dict):
-        benchmark.dots = generate_dots(
-            benchmark.benchmark_config['n_dots'],
+        benchmark.points = generate_points(
+            benchmark.benchmark_config['n_points'],
             benchmark.benchmark_config['seed'],
-            method=benchmark.benchmark_config['dot_generation']
+            method=benchmark.benchmark_config['point_generation']
         )
 
 
@@ -40,7 +38,7 @@ class AlgorithmExecutionStep(BenchmarkStep):
             route = benchmark.execute_algorithm(config)
             route = benchmark.apply_post_optimization(config, route)
             exec_time = time.perf_counter() - start_time
-            route_length = calculate_length(benchmark.dots, route)
+            route_length = calculate_length(benchmark.points, route)
 
             results[name] = benchmark.create_result(route, exec_time, route_length, config)
             benchmark.print_algorithm_end(exec_time, route_length)
@@ -50,7 +48,7 @@ class VisualizationStep(BenchmarkStep):
 
     def execute(self, benchmark: 'TSPBenchmark', results: Dict):
         if benchmark.benchmark_config['plot_results']:
-            plot_routes(benchmark.dots, {k: v['route'] for k, v in results.items()})
+            plot_routes(benchmark.points, {k: v['route'] for k, v in results.items()})
 
 
 class SummaryStep(BenchmarkStep):
@@ -80,16 +78,16 @@ class AlgorithmConfig:
 
 class TSPBenchmark:
     DEFAULT_CONFIG = {
-        'n_dots': 1000,
+        'n_points': 1000,
         'seed': 777,
-        'dot_generation': 'random',
+        'point_generation': 'random',
         'use_post_optimization': False,
         'plot_results': False,
         'verbose': True
     }
 
     def __init__(self, config=None):
-        self.dots = None
+        self.points = None
         self.benchmark_config = config if config is not None else self.DEFAULT_CONFIG
         self._init_algorithms()
         self._init_benchmark_steps()
@@ -99,7 +97,7 @@ class TSPBenchmark:
 
     def _init_benchmark_steps(self):
         self.benchmark_steps = [
-            DotGenerationStep(),
+            PointGenerationStep(),
             AlgorithmExecutionStep(),
             VisualizationStep(),
             SummaryStep()
@@ -142,9 +140,9 @@ class TSPBenchmark:
         print("\n" + "=" * 50)
         print("SMART TSP ALGORITHMS BENCHMARK".center(50))
         print("=" * 50)
-        print(f"{'Dots:':<15} {cfg['n_dots']}")
+        print(f"{'Points:':<15} {cfg['n_points']}")
         print(f"{'Seed:':<15} {cfg['seed']}")
-        print(f"{'Generation:':<15} {cfg['dot_generation']}")
+        print(f"{'Generation:':<15} {cfg['point_generation']}")
         print(f"{'Post-opt:':<15} {'ON' if cfg['use_post_optimization'] else 'OFF'}")
 
         print(f"{'Algorithms:':<15}")
@@ -162,12 +160,12 @@ class TSPBenchmark:
     def execute_algorithm(self, config: AlgorithmConfig) -> List[int]:
         if config.is_class:
             solver = config.function(**config.params)
-            return solver.solve(self.dots)
-        return config.function(self.dots, **config.params)
+            return solver.solve(self.points)
+        return config.function(self.points, **config.params)
 
     def apply_post_optimization(self, config: AlgorithmConfig, route: List[int]) -> List[int]:
         if self.benchmark_config['use_post_optimization'] and config.post_optimize:
-            return fast_post_optimize(self.dots, route)
+            return fast_post_optimize(self.points, route)
         return route
 
     def create_result(self, route: List[int], exec_time: float, route_length: float, config: AlgorithmConfig) -> Dict:
@@ -175,7 +173,7 @@ class TSPBenchmark:
             'route': route,
             'time': exec_time,
             'length': route_length,
-            'dots': self.benchmark_config['n_dots'],
+            'points': self.benchmark_config['n_points'],
             'params': config.params
         }
 

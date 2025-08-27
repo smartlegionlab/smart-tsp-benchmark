@@ -1,4 +1,4 @@
-# Smart TSP Benchmark <sup>v0.1.7</sup>
+# Smart TSP Benchmark <sup>v0.2.1</sup>
 
 ---
 
@@ -43,9 +43,9 @@ from smart_tsp_solver.algorithms.other.greedy.v2 import greedy_tsp_v2
 
 def main():
     config = {
-        'n_dots': 100,
+        'n_points': 100,
         'seed': 123,
-        'dot_generation': 'random',
+        'point_generation': 'random',
         'use_post_optimization': False,
         'plot_results': True,
         'verbose': True
